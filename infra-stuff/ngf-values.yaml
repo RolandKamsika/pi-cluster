@@ -1,0 +1,20 @@
+# NGINX Gateway Fabric: pin controller and all Gateway data-plane pods to pinode1
+# (pinode1 is tainted dedicated=gateway:NoSchedule and labelled dedicated=gateway)
+nginxGateway:
+  nodeSelector:
+    dedicated: gateway
+  tolerations:
+    - key: dedicated
+      operator: Equal
+      value: gateway
+      effect: NoSchedule
+
+nginx:
+  pod:
+    nodeSelector:
+      dedicated: gateway
+    tolerations:
+      - key: dedicated
+        operator: Equal
+        value: gateway
+        effect: NoSchedule

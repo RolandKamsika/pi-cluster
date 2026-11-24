@@ -1,0 +1,39 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: hello-world-ingress
+  annotations:
+    nginx.org/rewrites: "serviceName=aks-helloworld-two rewrite=/"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - helloworld.kinexa.co.uk
+    secretName: helloworld-tls
+  rules:
+  - host: helloworld.kinexa.co.uk
+    https:
+      paths:
+      - path: /hello-world-one(/|$)(.*)
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: aks-helloworld-one
+            port:
+              number: 80
+      - path: /hello-world-two(/|$)(.*)
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: aks-helloworld-two
+            port:
+              number: 80
+      - path: /(.*)
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: aks-helloworld-one
+            port:
+              number: 80

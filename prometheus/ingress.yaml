@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: grafana-ingress
+  namespace: prometheus
+  annotations:
+    nginx.org/rewrites: "serviceName=prometheus-grafana rewrite=/"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - grafana.kinexa.co.uk
+    secretName: grafana-tls
+  rules:
+  - host: grafana.kinexa.co.uk
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: prometheus-grafana
+            port:
+              number: 80

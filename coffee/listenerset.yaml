@@ -1,0 +1,21 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: ListenerSet
+metadata:
+  name: cafe-listeners
+spec:
+  parentRef:
+    name: cafe-gateway
+    kind: Gateway
+    group: gateway.networking.k8s.io        
+  listeners:
+  - name: https
+    # Important: The hostname needs to be set to your domain
+    hostname: cafe.kinexa.co.uk
+    port: 443
+    protocol: HTTPS
+    tls:
+      mode: Terminate
+      certificateRefs:
+      - kind: Secret
+        name: cafe-secret
+
