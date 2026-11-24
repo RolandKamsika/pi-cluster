@@ -1,0 +1,23 @@
+# Terraform
+**/.terraform/
+*.tfstate
+*.tfstate.backup
+*.tfstate.lock.info
+.terraform.lock.hcl
+terraform.tfvars
+password.tfvars
+password.auto.tfvars
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+crash.log
+
+# Secrets
+*.pem
+*.key
+*.crt
+*.pfx
+
+# Secret manifests
+cloudflare-token.yaml
